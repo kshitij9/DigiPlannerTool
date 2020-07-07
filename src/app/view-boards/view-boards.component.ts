@@ -17,13 +17,14 @@ export class ViewBoardsComponent implements OnInit {
     private boardService:BoardService) { }
 
   ngOnInit(): void {
-    this.authService.authState.subscribe((user) => {
-      this.currentUser = user;
-      if(!this.currentUser){
-        this.router.navigate(['/login']);
-      }
-    });
-    this.boardService.viewBoard(this.currentUser.email).subscribe((result) => {
+
+    if(localStorage.getItem('loggedInAsAdmin') === '1'){
+      // this.isAdmin = true;
+    } else {
+      this.router.navigate(['/login']);
+    }
+
+    this.boardService.viewBoard('admin').subscribe((result) => {
       if(result['success']){
         let data = result['data'];
         this.boards = data.boards;

@@ -9,20 +9,32 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit{
   title:string = 'digi-planner';
-  currentUser:SocialUser;
+  currentUser:string;
   userType:string;
-  constructor(private authService:AuthService,private router:Router){
+  constructor(private userService:UserService,private router:Router){
+    this.userService.loggedIn.subscribe(() => {
+      this.currentUser = 'Admin';
+    })
 
+    this.userService.loggedOut.subscribe(() => {
+      this.currentUser = '';
+    });
   }
 
   ngOnInit(): void {
-    this.authService.authState.subscribe((user) => {
-      this.currentUser = user;
-    });  
+    if(localStorage.getItem('loggedInAsAdmin') === '1'){
+      this.userService.adminLoggedIn();
+    }
+  }
+
+  checkIfLoggedIn(){
+    return localStorage.getItem('loggedInAsAdmin') === '1';
   }
 
   signOut(){
-    this.authService.signOut();
+    this.router.navigate(['/login']);
+    this.userService.adminLoggedOut();
+    localStorage.setItem('loggedInAsAdmin', '0');
   }
 
   goToHome(){

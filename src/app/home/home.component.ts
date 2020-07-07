@@ -30,26 +30,32 @@ export class HomeComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.authService.authState.subscribe((user) => {
-      this.currentUser = user;
-      if(!this.currentUser){
-        this.router.navigate(['/login']);
-      } else {
-        this.userService.getUserType(this.currentUser.email).subscribe((result) => {
-          if(result['success']) {
-            let data = result['data'];
-            let userType = data['roles'][0] === 1 ? 'admin' : 'user';
-            this.isAdmin = userType === 'admin' ? true : false;
-            this.isUser = userType === 'user' ? true : false;
-          }
-        });
-      }
-    });
+
+    if(localStorage.getItem('loggedInAsAdmin') === '1'){
+      this.isAdmin = true;
+    } else {
+      this.router.navigate(['/login']);
+    }
+    // this.authService.authState.subscribe((user) => {
+    //   this.currentUser = user;
+    //   if(!this.currentUser){
+    //     this.router.navigate(['/login']);
+    //   } else {
+    //     this.userService.getUserType(this.currentUser.email).subscribe((result) => {
+    //       if(result['success']) {
+    //         let data = result['data'];
+    //         let userType = data['roles'][0] === 1 ? 'admin' : 'user';
+    //         this.isAdmin = userType === 'admin' ? true : false;
+    //         this.isUser = userType === 'user' ? true : false;
+    //       }
+    //     });
+    //   }
+    // });
   }
 
   createBoard():void {
     let dialogRef = this.dialog.open(CreateBoardDialogComponent,{
-      data:{boardTitle:null,roomCode:null,userId:this.currentUser.email}
+      data:{boardTitle:null,roomCode:null,userId:'admin'}
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -57,7 +63,7 @@ export class HomeComponent implements OnInit {
         let roomCode:string=result.roomCode;
         let boardTitle:string=result.boardTitle;
 
-        this.boardService.createBoard(roomCode,boardTitle,this.currentUser.email).subscribe((result) => {
+        this.boardService.createBoard(roomCode,boardTitle,'admin').subscribe((result) => {
           if(result['success'] === true) {
             this.showSnackBar('Board created!','OK');
             this.router.navigate(['/adminboard'],{
@@ -77,11 +83,11 @@ export class HomeComponent implements OnInit {
 
   joinBoard():void {
     let dialogRef = this.dialog.open(JoinRoomDialogComponent,{
-      data:{roomCode:null,userId:this.currentUser.email}
+      data:{roomCode:null,userId:'admin'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.boardService.addJoinedRoom(result,this.currentUser.email).subscribe((value) => {
+        this.boardService.addJoinedRoom(result,'admin').subscribe((value) => {
           if(value['success']){
             this.showSnackBar('Now joining room','OK');
             this.router.navigate(['/userboard'],{queryParams:{room_code:result}});

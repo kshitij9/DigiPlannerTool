@@ -20,17 +20,22 @@
 .card{
     width: 400px;
     text-align: left;
-    border: 2px solid #0080FF;
+    border: 1px solid rgb(0, 119, 123);
+    border-radius: 0px;
+    color: rgb(0, 119, 123);
     /* background-color: rgba(154, 205, 255,0.5); */
-    color:rgb(0, 75, 150);
     font-size: 18px;
 }
 
 .card:hover{
-    background-color: #0080FF;
-    color:white;
+    background-color: rgb(230, 241, 242);
+    /* color:white; */
 }
 
 .mat-button-focus-overlay {
     background-color:transparent;
+}
+
+.mat-button-wrapper {
+    font-family: sans-serif;
 }

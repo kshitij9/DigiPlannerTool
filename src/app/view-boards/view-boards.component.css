@@ -2,18 +2,18 @@
     width: 200px;
     height: 80px;
     padding: 15px;
-    border-radius:5px;
-    color: rgb(0, 75, 150);
-    border: 2px solid rgb(35, 145, 255);
+    /* border-radius:5px; */
+    color: rgb(0, 119, 123);
+    border: 1px solid rgb(0, 119, 123);
     box-shadow: 10px 10px 15px lightgrey;
     margin:20px 0px 0px 20px;
     float:left;
   }
 
 .card:hover{
-    color:white;
+    color:rgb(0, 119, 123);
     cursor: pointer;
-    background-color: rgb(35, 145, 255);
+    background-color: rgb(230, 241, 242);
     box-shadow: 10px 10px 15px grey;
 }
 .container{
@@ -21,7 +21,7 @@
 }
 .title{
     margin:20px;
-    color: rgb(0, 75, 150);
+    color: #000;
 }
 .btitle{
     font-size: 16px;
@@ -38,9 +38,8 @@
 
 a{
     text-decoration: none;
-    color:rgb(0, 75, 150);
+    color:rgb(0, 119, 123);
 }
 
 a:hover{
-    color:white;
 }

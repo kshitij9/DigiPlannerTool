@@ -1,22 +1,47 @@
 .title{
-    color : rgb(0,75,150);
-    font-family: 'Raleway',sans-serif;
-    font-size: xx-large;
-    font-weight: bold;
+    color : #000;
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: normal;
     float: left;
-    margin-top: 0.5%;
+    margin-top: 0.8%;
     text-transform: capitalize;
     letter-spacing: normal;
 }
 
+.container {
+    width: 70%;
+    margin: auto;
+}
+
 #canvas{
-    border: 2px solid rgb(0,75,150);
-    border-radius: 10px;    
+    border: 1px solid #a6a6a6;
+    background-color: white;
+    width: 100%;
+    /* border-radius: 10px;     */
 }
 
 .button-col{
     display: inline-block;
     margin: auto 10px 0 10px;
+}
+
+::ng-deep .canvas-container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+::ng-deep .upper-canvas {
+    width: 100% !important;
+    height: 100% !important;
+
+    position: relative !important;
+}
+
+::ng-deep .lower-canvas {
+    width: 100% !important;
+    height: 100% !important;
+
 }
 
 .button-col button{
@@ -25,9 +50,14 @@
     display: block;
 }
 
+.user-container {
+    background-color: #f6f6f6;
+    height: calc(100vh - 75px);
+}
+
 .button-row{
-    width: 1067px;
-    margin: 10px auto;
+    /* width: 1178px; */
+    margin: 0px 82px ;
     contain: content;
 }
 
@@ -48,8 +78,20 @@
     margin-left: 8px;
 }
 
+.mat-flat-button.mat-accent {
+    color: rgb(0, 119, 123);
+    border: 1px solid rgb(0, 119, 123);
+    border-radius: 0px;
+    background-color: transparent;
+}
+
+.mat-flat-button {
+    font-weight: unset !important;
+
+}
+
 .mat-flat-button:hover {
-    background-color: #3F51B5;
+    background-color: rgb(230, 241, 242);
   }
 
 .mat-fab:hover{

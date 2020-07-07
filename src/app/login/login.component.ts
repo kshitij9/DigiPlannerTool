@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   userType:string="admin";
   inH:number;
   isLoggedIn:boolean = true;
+  userName: string = "";
+  password: string = "";
   constructor(
     private authService:AuthService,
     private userService:UserService,
@@ -23,14 +25,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.authService.authState.subscribe((user)=>{
-      this.currentUser = user;
-      if(this.currentUser){
-        this.router.navigate(['/home']);
-      }else{
-        this.isLoggedIn = false;
-      }
-    }); 
+    if(localStorage.getItem('loggedInAsAdmin') === '1'){
+      this.isLoggedIn = true;
+      this.userService.adminLoggedIn();
+      this.router.navigate(['/home']);
+    } else {
+      this.isLoggedIn = false;
+    }
   }
 
   onChange(event):void {   
@@ -38,34 +39,45 @@ export class LoginComponent implements OnInit {
   }
 
   signIn():void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user) => {
-      if(user){
-        this.userService.getUserType(user.email).subscribe((result) => {
-          console.log(result['success']);
-          if(result['success']){
-            let data = result['data'];
-            console.log(data);
-            if((data['roles'][0] === 1 && this.userType === 'admin') || (data['roles'][0] === 2 && this.userType === 'user')) {
-                this.showSnackBar('Login Successful','cancel');
-                this.router.navigate(['/home']);
-            } else {
-                this.signOut();
-                this.showSnackBar('invalid user or usertype!','cancel');
-            } 
-          }else{
-            this.signOut();
-            this.showSnackBar(result['messages'],'cancel');
-          }
-        }); 
-      }
-    }).catch(error => {
-      console.log(error);
-      this.showSnackBar('Error in signing in','cancel');
-    });
+
+    if(this.userName.toLowerCase() == 'admin' && this.password.toLowerCase() == 'admin'){
+      this.showSnackBar('Login Successful','cancel');
+      this.userService.adminLoggedIn();
+      localStorage.setItem('loggedInAsAdmin', '1');
+      this.router.navigate(['/home']);
+    }
+    // this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user) => {
+    //   if(user){
+    //     this.userService.verifyUser(user.email).subscribe((result) => {
+    //       console.log(result['success']);
+    //       if(result['success']){
+    //         let data = result['data'];
+    //         console.log(data);
+    //         if((data['roles'][0] === 1 && this.userType === 'admin') || (data['roles'][0] === 2 && this.userType === 'user')) {
+    //             this.showSnackBar('Login Successful','cancel');
+    //             this.router.navigate(['/home']);
+    //         } else {
+    //             this.signOut();
+    //             this.showSnackBar('invalid user or usertype!','cancel');
+    //         } 
+    //       }else{
+    //         this.signOut();
+    //         this.showSnackBar(result['messages'],'cancel');
+    //       }
+    //     }); 
+    //   }
+    // }).catch(error => {
+    //   console.log(error);
+    //   this.showSnackBar('Error in signing in','cancel');
+    // });
   }
 
   signOut():void {
     this.authService.signOut();
+  }
+
+  checkIfFieldIsEmpty() {
+    return this.userName.length === 0 || this.password.length === 0;
   }
 
   showSnackBar(message:string,action:string):void {

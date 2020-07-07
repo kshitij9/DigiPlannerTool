@@ -2,11 +2,11 @@
   <img src="../assets/library.png" width="25" height="25">
   <span class="title" (click)="goToHome()">   DigiPlanner</span>
   <span class="spacer"></span>
-  <span class="userIdLabel" *ngIf="currentUser">{{currentUser.email}}</span>
+  <span class="userIdLabel" *ngIf="currentUser">{{currentUser}}</span>
   <button *ngIf="currentUser" mat-button matTooltip="logout" class="logoutBtn" (click)="signOut()">
     <img  src="../assets/exit.png" width="25" height="25">
   </button>
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<router-outlet class="route-container"></router-outlet>
 

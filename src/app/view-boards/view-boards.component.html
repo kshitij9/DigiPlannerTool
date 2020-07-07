@@ -3,7 +3,7 @@
 
 <div *ngFor='let board of boards' class="card">
     <div class="container">
-        <p class="btitle"><b>{{board.room_title}}</b></p>
+        <p class="btitle"><span style="font-weight: 500;">{{board.room_title}}</span></p>
         <p class="roomCode">Room Code: {{board.room_id}}</p>
     </div>
     <button mat-button class="viewBtn">

@@ -42,8 +42,12 @@ export class UserSocketService {
         this.shapeService.addRectangle(canvas, renderer, data[1]);
       } else if (data[0] === 'ellipse') {
         this.shapeService.addEllipse(canvas, renderer, data[1]);
-      } else {
+      } else if (data[0] === 'triangle'){
         this.shapeService.addTriangle(canvas, renderer, data[1]);
+      } else if (data[0] === 'textBox'){
+        this.shapeService.addTextBox(canvas, renderer, data[1]);
+      } else if (data[0] === 'avatar') {
+        this.shapeService.addAvatar(canvas,renderer);
       }
     });
 
@@ -59,10 +63,10 @@ export class UserSocketService {
       }
       const shape = gr._objects[0];
       const text = gr._objects[1];
-      text.fill = '#7f8c8d';
+      text.fill = text.fill;
       text.fontStyle = 'italic';
       shape.set('opacity', 0.7);
-      text.set('text', `${data[1].firstName} is editing`);
+      text.set('text', 'Someone is editing');
       this.groupService.unGroup(gr, canvas);
       text.lockMovementX = false;
       text.lockMovementY = false;
@@ -79,7 +83,7 @@ export class UserSocketService {
       }
       const shape = g._objects[0];
       const text = g._objects[1];
-      text.fill = '#333';
+      text.fill = g._objects[1].fill;
       text.fontStyle = 'normal';
       text.set('text', h[0]);
       shape.set('opacity', 1);

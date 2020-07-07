@@ -5,15 +5,18 @@
         </mat-grid-tile>
         <mat-grid-tile colspan="1" rowspan="1" >
             <div *ngIf="!currentUser" class="loginForm">
-                    <h2>Select user type and sign in:</h2>
-                    <mat-radio-group #typeOfUser (change)="onChange($event)" class="radioBtn">
-                        <mat-radio-button value="admin" color="accent" checked="true">Admin</mat-radio-button>
-                        <mat-radio-button value="user">User</mat-radio-button>
-                    </mat-radio-group><br>
-                    <button mat-button class="card" (click)="signIn()">
-                        <span><img src="../../assets/icons-google.png" width="30" height="30" class="gIcon"></span>
-                        <span class="btnText">Sign in with Google</span>
-                    </button>
+                    <h2 mat-dialog-title>Admin Login :</h2>
+                    <mat-form-field>
+                        <mat-label>Username :</mat-label>
+                        <input matInput [(ngModel)]="userName" required>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field>
+                        <mat-label>Password:</mat-label>
+                        <input matInput [(ngModel)]="password" type="password" required>
+                    </mat-form-field>
+                    <br>
+                    <button class="signInBtn" mat-button [disabled]="checkIfFieldIsEmpty()" (click)="signIn()">Sign In</button>
             </div>
         </mat-grid-tile>
     </mat-grid-list>

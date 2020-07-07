@@ -48,10 +48,7 @@ export class AdminBoardComponent implements OnInit {
       this.boardTitle = params['boardTitle'];
     });
 
-    this.authService.authState.subscribe((user) => {
-      this.currentUser=user;
-      this.userId=this.currentUser.email;
-    });
+    this.userId = 'admin';
   }
 
   exportJsonAdmin() {
@@ -77,6 +74,21 @@ export class AdminBoardComponent implements OnInit {
 
   dialog() {
     fabric.Image.fromURL('../assets/images/dialog.jpg', (img) => {
+      const scale = 150 / img.width;
+      img.set({
+        transparentCorners: false,
+        top: 10,
+        left: 10,
+        scaleX: scale,
+        scaleY: scale,
+      });
+      this.canvas.add(img);
+    });
+    this.canvas.isDrawingMode = false;
+  }
+
+  avatar() {
+    fabric.Image.fromURL('../assets/images/avatar.jpg', (img) => {
       const scale = 150 / img.width;
       img.set({
         transparentCorners: false,

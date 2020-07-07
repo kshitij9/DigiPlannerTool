@@ -37,7 +37,7 @@ export class UserBoardComponent implements OnInit, OnDestroy, ICanComponentDeact
     private userDatabase: UserDatabaseService,
     private adminBoardService: AdminBoardService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.constants.roomID = this.route.snapshot.queryParamMap.get('room_code') || 'unknown';
@@ -45,21 +45,19 @@ export class UserBoardComponent implements OnInit, OnDestroy, ICanComponentDeact
     this.socketService.connect();
     this.canvas = this.shapeService.initCanvas(this.renderer);
     this.userSocketService.init(this.canvas, this.renderer, this.constants.roomID);
-    this.authService.authState.subscribe((user) => {
-      this.groupService.currentUser = user;
-      this.constants.userID = user.email;
-    });
+    this.constants.userID = "admin";
     this.groupService.userEdit.subscribe((isEditing: boolean) => {
       this.isUserEditing = isEditing;
     });
-    window.onbeforeunload = function(e) {
-      if(this.isUserEditing){
+
+    window.onbeforeunload = function (e) {
+      if (this.isUserEditing) {
         this.shapeService.windowClose.next();
       }
     }.bind(this);
   }
 
-  ngOnDestroy(): void{
+  ngOnDestroy(): void {
     // this.socketService.socket.emit('disconnect');
     this.socketService.disconnect();
   }
@@ -87,17 +85,27 @@ export class UserBoardComponent implements OnInit, OnDestroy, ICanComponentDeact
     this.addObj('triangle');
   }
 
+  textBox() {
+    this.shapeService.addTextBox(this.canvas, this.renderer, this.canvas.selectedColor);
+    this.addObj('textBox');
+  }
+
+  avatar() {
+    this.shapeService.addAvatar(this.canvas, this.renderer);
+    this.addObj('avatar');
+
+  }
+
   clear() {
-      this.canvas.clear();
-      this.shapeService.setBackground(this.canvas, 'assets');
-      this.socketService.clearCanvas(this.canvas, this.constants.roomID);
-      document.getElementById('deleteBtn')?.remove();
-      console.log(this.canvas.toJSON(['id', 'connections', 'givingId', 'editing']));
-      this.userDatabase.sendingCanvas(this.canvas.toJSON(['id', 'connections', 'givingId', 'editing']));
+    this.canvas.clear();
+    this.shapeService.setBackground(this.canvas, 'assets');
+    this.socketService.clearCanvas(this.canvas, this.constants.roomID);
+    document.getElementById('deleteBtn')?.remove();
+    this.userDatabase.sendingCanvas(this.canvas.toJSON(['id', 'connections', 'givingId', 'editing']));
   }
 
   showSnackBar(message: string, action: string): void {
-    if(!this.isUserEditing){
+    if (!this.isUserEditing) {
       const snackBarRef = this.snackBar.open(message, action, {
         duration: 3000,
       });
@@ -143,7 +151,7 @@ export class UserBoardComponent implements OnInit, OnDestroy, ICanComponentDeact
   }
 
   canDeactivate(): boolean {
-    return !this.isUserEditing;
+    return !this.isUserEditing && localStorage.getItem('loggedInAsAdmin') === '1';
   }
 }
 

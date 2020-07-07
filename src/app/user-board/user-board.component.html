@@ -1,58 +1,71 @@
-<div style="text-align: center;">
+<div class="user-container" style="text-align: center;padding-top: 10px">
 
-  <div class="button-row">
+  <div class="container">
 
-    <div class="title">{{canvas.boardTitle}}</div>
+    <div class="button-row">
 
-    <div class="button-row-right">
-
-      <button mat-flat-button (click)="addRectangle()" color="accent" [disabled]="canvas.connect">
-        <mat-icon>crop_3_2</mat-icon>
-        Rectangle
-      </button>
-      <button mat-flat-button (click)="addEllipse()" color="accent" [disabled]="canvas.connect">
-        <mat-icon>radio_button_unchecked</mat-icon>
-        Ellipse
-      </button>
-      <button mat-flat-button (click)="addTriangle()" color="accent" [disabled]="canvas.connect">
-        <mat-icon>change_history</mat-icon>
-        Triangle
-      </button>
-      <button class="connectButton" mat-flat-button (click)="connect()" color="accent">
-        <mat-icon>timeline</mat-icon>
-        {{canvas.connectButtonText}}
-      </button>
+      <div class="title">{{canvas.boardTitle}}</div>
+  
+      <div class="button-row-right">
+  
+        <button mat-flat-button (click)="addRectangle()" color="accent" [disabled]="canvas.connect">
+          <mat-icon>crop_3_2</mat-icon>
+          Rectangle
+        </button>
+        <button mat-flat-button (click)="addEllipse()" color="accent" [disabled]="canvas.connect">
+          <mat-icon>radio_button_unchecked</mat-icon>
+          Ellipse
+        </button>
+        <button mat-flat-button (click)="addTriangle()" color="accent" [disabled]="canvas.connect">
+          <mat-icon>change_history</mat-icon>
+          Triangle
+        </button>
+        <button class="connectButton" mat-flat-button (click)="connect()" color="accent">
+          <mat-icon>timeline</mat-icon>
+          {{canvas.connectButtonText}}
+        </button>
+        <button mat-flat-button color="accent" (click)="textBox()">
+          <mat-icon>text_rotation_none</mat-icon>
+          Text
+        </button>
+  
+        <button mat-flat-button color="accent" (click)="avatar()">
+          Avatar
+        </button>
+      </div>
+  
     </div>
 
-  </div>
 
-  <div id="canvas-div" style="display: inline-flex;">
+    <div id="canvas-div" style="display: inline-flex;">
 
-    <div class="button-col">
-      <div *ngFor="let color of constants.colors;">
-        <button mat-mini-fab class={{color}} style="border: 1px solid darkslategray;" (click)="changeColor(color)">
-          <mat-icon *ngIf="canvas.selectedColor == color" [style.color]="'black'">done</mat-icon>
+      <div class="button-col">
+        <div *ngFor="let color of constants.colors;">
+          <button mat-mini-fab class={{color}} style="border: 1px solid darkslategray;" (click)="changeColor(color)">
+            <mat-icon *ngIf="canvas.selectedColor == color" [style.color]="'black'">done</mat-icon>
+          </button>
+        </div>
+      </div>
+  
+      <canvas id="canvas" #canvasContent></canvas>
+  
+      <div class="button-col">
+        <button mat-fab class="clearButton redButton but-col-right" matTooltip="Clear Screen" matTooltipPosition='after'
+          color="warn" (click)="showSnackBar('Do you want to clear the screen?','OK')" [disabled]="canvas.connect || isUserEditing">
+          <mat-icon>layers_clear</mat-icon>
+        </button>
+  
+  
+        <button mat-fab class="redButton but-col-right" matTooltip="Export" matTooltipPosition='after' color="warn"
+          (click)="exportAsImage(canvasContent)">
+          <mat-icon>cloud_download</mat-icon>
         </button>
       </div>
     </div>
-
-    <canvas id="canvas" #canvasContent></canvas>
-
-    <div class="button-col">
-      <button mat-fab class="clearButton redButton but-col-right" matTooltip="Clear Screen" matTooltipPosition='after'
-        color="warn" (click)="showSnackBar('Do you want to clear the screen?','OK')" [disabled]="canvas.connect || isUserEditing">
-        <mat-icon>layers_clear</mat-icon>
-      </button>
-
-
-      <button mat-fab class="redButton but-col-right" matTooltip="Export" matTooltipPosition='after' color="warn"
-        (click)="exportAsImage(canvasContent)">
-        <mat-icon>cloud_download</mat-icon>
-      </button>
-    </div>
+  
+    <p class="mat-h2 noteEle" *ngIf="canvas.connect"> Note: Double click on any two cards to
+      connect.{{canvas.selectedElements.length}} selected </p>
   </div>
 
-  <p class="mat-h2 noteEle" *ngIf="canvas.connect"> Note: Double click on any two cards to
-    connect.{{canvas.selectedElements.length}} selected </p>
 
 </div>
