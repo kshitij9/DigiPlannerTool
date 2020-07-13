@@ -146,6 +146,10 @@ export class UserBoardComponent implements OnInit, OnDestroy, ICanComponentDeact
     }
   }
 
+  sendMail() {
+    this.userDatabase.sendMail();
+  }
+
   changeColor(color: string) {
     this.shapeService.changeColor(this.canvas, color, this.renderer);
   }

@@ -60,6 +60,11 @@
           (click)="exportAsImage(canvasContent)">
           <mat-icon>cloud_download</mat-icon>
         </button>
+
+        <button mat-fab class="clearButton redButton but-col-right" matTooltip="Send Mail" matTooltipPosition='after'
+        color="warn" (click)="sendMail()" [disabled]="canvas.connect || isUserEditing">
+        <mat-icon>email</mat-icon>
+      </button>
       </div>
     </div>
   

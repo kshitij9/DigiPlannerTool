@@ -19,6 +19,10 @@ export class UserDatabaseService {
   getRoomData(): Observable<RoomData> {
     return this.http.get(`${this.constants.URI}/board/${this.constants.userID}/${this.constants.roomID}`) as Observable<RoomData>;
   }
+
+  sendMail() {
+    this.http.post('http://localhost:8080/send-mail/', null) as Observable<RoomData>;
+  }
 }
 
 interface RoomData{
